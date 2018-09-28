@@ -1,10 +1,12 @@
 <template>
-    <div class="col-lg-6">
-        <article v-for="post in posts">
-            <header>
+    <div class="col-lg-6 bg-dark" >
+        <article v-for="post in posts"
+                 class="card border-light bg-dark text-light my-2"
+        >
+            <header class="card-header bg-light text-dark border-light">
                 By: {{ post.username }}
             </header>
-            <main>
+            <main class="card-body border-light">
                 <p v-html="output(post.message)"></p>
             </main>
         </article>

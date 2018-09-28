@@ -14195,7 +14195,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -14207,6 +14207,8 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__functions_bbcode__ = __webpack_require__(61);
+//
+//
 //
 //
 //
@@ -14813,17 +14815,29 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "col-lg-6" },
+    { staticClass: "col-lg-6 bg-dark" },
     _vm._l(_vm.posts, function(post) {
-      return _c("article", [
-        _c("header", [
-          _vm._v("\n            By: " + _vm._s(post.username) + "\n        ")
-        ]),
-        _vm._v(" "),
-        _c("main", [
-          _c("p", { domProps: { innerHTML: _vm._s(_vm.output(post.message)) } })
-        ])
-      ])
+      return _c(
+        "article",
+        { staticClass: "card border-light bg-dark text-light my-2" },
+        [
+          _c(
+            "header",
+            { staticClass: "card-header bg-light text-dark border-light" },
+            [
+              _vm._v(
+                "\n            By: " + _vm._s(post.username) + "\n        "
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c("main", { staticClass: "card-body border-light" }, [
+            _c("p", {
+              domProps: { innerHTML: _vm._s(_vm.output(post.message)) }
+            })
+          ])
+        ]
+      )
     })
   )
 }
