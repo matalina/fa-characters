@@ -16,8 +16,7 @@
 <script>
     import BBCode from '../functions/bbcode';
 
-    String.prototype.replaceAll = function(search, replace)
-    {
+    String.prototype.replaceAll = function(search, replace) {
         //if replace is not sent, return original string otherwise it will
         //replace search string with 'undefined'.
         if (replace === undefined) {

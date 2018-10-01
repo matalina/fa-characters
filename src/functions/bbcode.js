@@ -67,7 +67,8 @@ class BBCode {
 
 // create the Default
 const bbCodeParser = new BBCode({
-    '\\[br\\]': '<br>',
+    '\\[br\\]': '<br/>',
+    '\\[hr\\]': '<hr/>',
 
     '\\[b\\](.+?)\\[/b\\]': '<strong>$1</strong>',
     '\\[i\\](.+?)\\[/i\\]': '<em>$1</em>',
@@ -84,6 +85,8 @@ const bbCodeParser = new BBCode({
 
     '\\[color=(.+?)\\](.+?)\\[/color\\]':   '<span style="color:$1">$2</span>',
     '\\[size=([0-9]+)\\](.+?)\\[/size\\]': '<span style="font-size:$1px">$2</span>',
+    '\\[font=(.+?)\\](.+?)\\[/font\\]': '<span style="font-family:\'$1\'">$2</span>',
+    '\\[align=(.+?)\\](.+?)\\[/align\\]': '<p style="text-align:$1 !important">$2</p>',
 
     '\\[img\\](.+?)\\[/img\\]': '<img src="$1">',
     '\\[img=(.+?)\\]':          '<img src="$1">',
