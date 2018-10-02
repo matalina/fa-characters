@@ -10478,3 +10478,8 @@ body,
   overflow-y: scroll;
 }
 
+.window div div {
+  height: auto;
+  overflow-y: auto;
+}
+

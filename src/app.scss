@@ -9,5 +9,10 @@ html, body, #app, .window {
     div {
         height: 100%;
         overflow-y: scroll;
+
+        div {
+            height: auto;
+            overflow-y: auto;
+        }
     }
 }

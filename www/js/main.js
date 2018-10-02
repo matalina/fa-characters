@@ -14002,7 +14002,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\nimg {\n  height: 50px;\n  width: auto;\n}\n", ""]);
+exports.push([module.i, "\n.character-search {\n  z-index: 10;\n  -webkit-box-shadow: 0 8px 6px -6px black;\n          box-shadow: 0 8px 6px -6px black;\n}\n.character-list {\n  margin-top: 8rem;\n  z-index: 1;\n}\n.image-cropper {\n  width: 50px;\n  height: 50px;\n  position: relative;\n  overflow: hidden;\n  border-radius: 50%;\n}\nimg {\n  display: inline;\n  margin: 0 auto;\n  height: auto;\n  width: 100%;\n}\n", ""]);
 
 // exports
 
@@ -14030,16 +14030,66 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'characters',
     props: ['characters'],
     data: function data() {
         return {
-            selected: null
+            selected: null,
+            search: ''
         };
     },
 
+    computed: {
+        filteredCharacters: function filteredCharacters() {
+            var _this = this;
+
+            console.log(this.characters);
+            if (this.search === '') {
+                return this.characters;
+            }
+            console.log(this.characters);
+            return this.characters.filter(function (obj) {
+                return obj.subject.match(new RegExp('^' + _this.search, 'ig'));
+            });
+        }
+    },
     methods: {
         isSelected: function isSelected(id) {
             return id === this.selected;
@@ -14068,38 +14118,132 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "col-lg-3" },
-    _vm._l(_vm.characters, function(char) {
-      return _c("ul", { staticClass: "list-group" }, [
-        _c(
-          "li",
-          {
-            staticClass: "list-group-item my-2",
-            class: { active: _vm.isSelected(char.uid) },
-            on: {
-              click: function($event) {
-                _vm.selectCharacter(char.uid)
-              }
-            }
-          },
-          [
-            _c("span", [
-              _c("img", { attrs: { src: _vm.getAvatar(char.avatar) } })
-            ]),
-            _vm._v(" "),
-            _c("span", [_vm._v(_vm._s(char.subject))]),
-            _c("br"),
-            _vm._v(" "),
-            _c("span", [_vm._v("by " + _vm._s(char.username))])
-          ]
-        )
-      ])
-    })
-  )
+  return _c("div", { staticClass: "col-lg-3" }, [
+    _c(
+      "div",
+      { staticClass: "character-search row bg-white position-fixed mx-auto" },
+      [
+        _c("div", { staticClass: "col" }, [
+          _c("h1", [_vm._v("Characters")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group mt-3" }, [
+            _c("div", { staticClass: "input-group" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { placeholder: "Search..." },
+                domProps: { value: _vm.search },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.search = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.search === "",
+                      expression: "search === ''"
+                    }
+                  ],
+                  staticClass: "input-group-append"
+                },
+                [_vm._m(0)]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.search !== "",
+                      expression: "search !== ''"
+                    }
+                  ],
+                  staticClass: "input-group-append",
+                  on: {
+                    click: function($event) {
+                      _vm.search = ""
+                    }
+                  }
+                },
+                [_vm._m(1)]
+              )
+            ])
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "character-list row" }, [
+      _c(
+        "div",
+        { staticClass: "col" },
+        _vm._l(_vm.filteredCharacters, function(char) {
+          return _c("ul", { staticClass: "list-group" }, [
+            _c(
+              "li",
+              {
+                staticClass: "list-group-item my-2",
+                class: { active: _vm.isSelected(char.uid) },
+                on: {
+                  click: function($event) {
+                    _vm.selectCharacter(char.uid)
+                  }
+                }
+              },
+              [
+                _c("span", { staticClass: "float-left image-cropper mr-2" }, [
+                  _c("img", { attrs: { src: _vm.getAvatar(char.avatar) } })
+                ]),
+                _vm._v(" "),
+                _c("span", [_vm._v(_vm._s(char.subject))]),
+                _c("br"),
+                _vm._v(" "),
+                _c("small", [_vm._v("by " + _vm._s(char.username))])
+              ]
+            )
+          ])
+        })
+      )
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-text" }, [
+      _c("i", { staticClass: "fas fa-fw fa-search" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-text" }, [
+      _c("i", { staticClass: "far fa-fw fa-times-circle" })
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
