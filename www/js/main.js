@@ -14080,11 +14080,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         filteredCharacters: function filteredCharacters() {
             var _this = this;
 
-            console.log(this.characters);
             if (this.search === '') {
                 return this.characters;
             }
-            console.log(this.characters);
             return this.characters.filter(function (obj) {
                 return obj.subject.match(new RegExp('^' + _this.search, 'ig'));
             });
@@ -15084,7 +15082,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.story-search {\n    z-index: 10;\n    -webkit-box-shadow: 0 8px 6px -6px black;\n            box-shadow: 0 8px 6px -6px black;\n}\n.story-list {\n    margin-top: 8rem;\n    z-index: 1\n}\n", ""]);
 
 // exports
 
@@ -15121,16 +15119,71 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'story',
     props: ['story'],
     data: function data() {
         return {
-            selected: null
+            selected: null,
+            search: ''
         };
     },
 
+    computed: {
+        filteredStory: function filteredStory() {
+            var _this = this;
+
+            if (this.search === '') {
+                return this.story;
+            }
+            return this.story.filter(function (obj) {
+                if (obj.subject.match(new RegExp('^' + _this.search, 'ig'))) {
+                    return true;
+                }
+                console.log(obj);
+                for (var index in obj.players) {
+                    if (obj.players[index].match(new RegExp('^' + _this.search, 'ig'))) {
+                        return true;
+                    }
+                }
+
+                return false;
+            });
+        }
+    },
     methods: {
         isSelected: function isSelected(id) {
             return id === this.selected;
@@ -15150,57 +15203,157 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "col-lg-3" },
-    _vm._l(_vm.story, function(topic) {
-      return _c("ul", { staticClass: "list-group" }, [
-        _c(
-          "li",
-          {
-            staticClass: "list-group-item my-2",
-            class: { active: _vm.isSelected(topic.tid) },
-            on: {
-              click: function($event) {
-                _vm.selectTopic(topic.tid)
-              }
-            }
-          },
-          [
-            _vm._v("\n            " + _vm._s(topic.subject)),
-            _c("br"),
-            _vm._v(" "),
+  return _c("div", { staticClass: "col-lg-3" }, [
+    _c(
+      "div",
+      { staticClass: "story-search row bg-white position-fixed mx-auto" },
+      [
+        _c("div", { staticClass: "col" }, [
+          _c("h1", [_vm._v("Their Story")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group mt-3" }, [
+            _c("div", { staticClass: "input-group" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { placeholder: "Search..." },
+                domProps: { value: _vm.search },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.search = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.search === "",
+                      expression: "search === ''"
+                    }
+                  ],
+                  staticClass: "input-group-append"
+                },
+                [_vm._m(0)]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.search !== "",
+                      expression: "search !== ''"
+                    }
+                  ],
+                  staticClass: "input-group-append",
+                  on: {
+                    click: function($event) {
+                      _vm.search = ""
+                    }
+                  }
+                },
+                [_vm._m(1)]
+              )
+            ])
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "story-list row" }, [
+      _c(
+        "div",
+        { staticClass: "col" },
+        _vm._l(_vm.filteredStory, function(topic) {
+          return _c("ul", { staticClass: "list-group" }, [
             _c(
-              "small",
+              "li",
+              {
+                staticClass: "list-group-item my-2",
+                class: { active: _vm.isSelected(topic.tid) },
+                on: {
+                  click: function($event) {
+                    _vm.selectTopic(topic.tid)
+                  }
+                }
+              },
               [
-                _vm._v("\n                on\n                "),
-                _vm._l(topic.forum, function(forum) {
+                _vm._v("\n                    " + _vm._s(topic.subject)),
+                _c("br"),
+                _vm._v(" "),
+                _c(
+                  "small",
+                  [
+                    _vm._v(
+                      "\n                        on\n                        "
+                    ),
+                    _vm._l(topic.forum, function(forum) {
+                      return [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(forum) +
+                            "\n                        "
+                        )
+                      ]
+                    }),
+                    _c("br")
+                  ],
+                  2
+                ),
+                _vm._v("\n                    Players:\n                    "),
+                _vm._l(topic.players, function(player) {
                   return [
                     _vm._v(
-                      "\n                    " +
-                        _vm._s(forum) +
-                        "\n                "
+                      "\n                        " +
+                        _vm._s(player) +
+                        "\n                    "
                     )
                   ]
-                }),
-                _c("br")
+                })
               ],
               2
-            ),
-            _vm._v("\n            Players:\n            "),
-            _vm._l(topic.players, function(player) {
-              return [
-                _vm._v("\n                " + _vm._s(player) + "\n            ")
-              ]
-            })
-          ],
-          2
-        )
-      ])
-    })
-  )
+            )
+          ])
+        })
+      )
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-text" }, [
+      _c("i", { staticClass: "fas fa-fw fa-search" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-text" }, [
+      _c("i", { staticClass: "far fa-fw fa-times-circle" })
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

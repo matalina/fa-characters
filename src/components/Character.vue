@@ -62,11 +62,9 @@
         },
         computed: {
             filteredCharacters() {
-                console.log(this.characters);
                 if(this.search === '') {
                     return this.characters;
                 }
-                console.log(this.characters);
                 return this.characters.filter((obj) => {
                     return obj.subject.match(new RegExp('^' + this.search, 'ig'));
                 });
