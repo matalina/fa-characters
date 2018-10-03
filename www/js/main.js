@@ -12998,7 +12998,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             characters: [],
             story: [],
-            posts: []
+            posts: [],
+            bio: null
         };
     },
     created: function created() {
@@ -13013,6 +13014,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$events.listen('characterSelected', function (id) {
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('https://thefirstage.org/pages/character/' + id + '/story').then(function (response) {
                 _this.story = response.data;
+                console.log(_this.characters);
+                for (index in _this.characters) {
+                    console.log(_this.characters[index]);
+                    if (_this.characters[index].uid === id) {
+                        _this.bio = _this.characters[index].tid;
+                    }
+                }
             }).catch(function (error) {
                 console.log(error);
             });
@@ -15082,7 +15090,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.story-search {\n    z-index: 10;\n    -webkit-box-shadow: 0 8px 6px -6px black;\n            box-shadow: 0 8px 6px -6px black;\n}\n.story-list {\n    margin-top: 8rem;\n    z-index: 1\n}\n", ""]);
+exports.push([module.i, "\n.story-search {\n    z-index: 10;\n    -webkit-box-shadow: 0 8px 6px -6px black;\n            box-shadow: 0 8px 6px -6px black;\n}\n.story-bio {\n    margin-top: 8rem;\n    z-index:1;\n}\n.story-list {\n    z-index: 1\n}\n", ""]);
 
 // exports
 
@@ -15151,10 +15159,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'story',
-    props: ['story'],
+    props: ['story', 'bio'],
     data: function data() {
         return {
             selected: null,
@@ -15170,12 +15190,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return this.story;
             }
             return this.story.filter(function (obj) {
-                if (obj.subject.match(new RegExp('^' + _this.search, 'ig'))) {
+                if (obj.subject.match(new RegExp(_this.search, 'ig'))) {
                     return true;
                 }
-                console.log(obj);
                 for (var index in obj.players) {
-                    if (obj.players[index].match(new RegExp('^' + _this.search, 'ig'))) {
+                    if (obj.players[index].match(new RegExp(_this.search, 'ig'))) {
                         return true;
                     }
                 }
@@ -15276,6 +15295,26 @@ var render = function() {
         ])
       ]
     ),
+    _vm._v(" "),
+    _c("div", { staticClass: "story-bio row" }, [
+      _c("div", { staticClass: "col" }, [
+        _c("ul", { staticClass: "list-group" }, [
+          _c(
+            "li",
+            {
+              staticClass: "list-group-item my-2",
+              class: { active: _vm.isSelected(_vm.bio) },
+              on: {
+                click: function($event) {
+                  _vm.selectTopic(_vm.bio)
+                }
+              }
+            },
+            [_vm._v("\n                    Biography\n                ")]
+          )
+        ])
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "story-list row" }, [
       _c(
@@ -15378,7 +15417,7 @@ var render = function() {
       [
         _c("characters", { attrs: { characters: _vm.characters } }),
         _vm._v(" "),
-        _c("story", { attrs: { story: _vm.story } }),
+        _c("story", { attrs: { story: _vm.story, bio: _vm.bio } }),
         _vm._v(" "),
         _c("posts", { attrs: { posts: _vm.posts } })
       ],

@@ -28,6 +28,18 @@
                 </div>
             </div>
         </div>
+        <div class="story-bio row">
+            <div class="col">
+                <ul class="list-group">
+                    <li :class="{ active: isSelected(bio) }"
+                        class="list-group-item my-2"
+                        @click="selectTopic(bio)"
+                    >
+                        Biography
+                    </li>
+                </ul>
+            </div>
+        </div>
         <div class="story-list row">
             <div class="col">
                 <ul v-for="topic in filteredStory"
@@ -59,7 +71,7 @@
 <script>
     export default {
         name: 'story',
-        props: ['story'],
+        props: ['story', 'bio'],
         data () {
             return {
                 selected: null,
@@ -72,12 +84,11 @@
                     return this.story;
                 }
                 return this.story.filter((obj) => {
-                    if(obj.subject.match(new RegExp('^' + this.search, 'ig'))) {
+                    if(obj.subject.match(new RegExp(this.search, 'ig'))) {
                         return true;
                     }
-                    console.log(obj);
                     for(let index in obj.players) {
-                        if (obj.players[index].match(new RegExp('^' + this.search, 'ig'))) {
+                        if (obj.players[index].match(new RegExp(this.search, 'ig'))) {
                             return true;
                         }
                     }
@@ -103,8 +114,11 @@
         z-index: 10;
         box-shadow: 0 8px 6px -6px black;
     }
-    .story-list {
+    .story-bio {
         margin-top: 8rem;
+        z-index:1;
+    }
+    .story-list {
         z-index: 1
     }
 </style>

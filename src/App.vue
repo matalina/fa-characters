@@ -2,7 +2,7 @@
     <div id="app" class="container-fluid">
         <div class="row window">
             <characters :characters="characters"></characters>
-            <story :story="story"></story>
+            <story :story="story" :bio="bio"></story>
             <posts :posts="posts"></posts>
         </div>
     </div>
@@ -26,6 +26,7 @@
                 characters: [],
                 story: [],
                 posts: [],
+                bio: null,
             };
         },
         created () {
@@ -41,6 +42,11 @@
                 axios.get('https://thefirstage.org/pages/character/' + id + '/story')
                         .then((response) => {
                             this.story = response.data;
+                            for(index in this.characters) {
+                                if(this.characters[index].uid === id) {
+                                    this.bio = this.characters[index].tid;
+                                }
+                            }
                         })
                         .catch(function (error) {
                             console.log(error);
