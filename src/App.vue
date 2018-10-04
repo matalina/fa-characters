@@ -42,9 +42,10 @@
                 axios.get('https://thefirstage.org/pages/character/' + id + '/story')
                         .then((response) => {
                             this.story = response.data;
-                            for(index in this.characters) {
-                                if(this.characters[index].uid === id) {
-                                    this.bio = this.characters[index].tid;
+                            let characters = this.characters;
+                            for(let index in characters) {
+                                if(characters[index].uid === id) {
+                                    this.bio = characters[index].tid;
                                 }
                             }
                         })

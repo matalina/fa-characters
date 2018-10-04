@@ -13014,11 +13014,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$events.listen('characterSelected', function (id) {
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('https://thefirstage.org/pages/character/' + id + '/story').then(function (response) {
                 _this.story = response.data;
-                console.log(_this.characters);
-                for (index in _this.characters) {
-                    console.log(_this.characters[index]);
-                    if (_this.characters[index].uid === id) {
-                        _this.bio = _this.characters[index].tid;
+                var characters = _this.characters;
+                for (var index in characters) {
+                    if (characters[index].uid === id) {
+                        _this.bio = characters[index].tid;
                     }
                 }
             }).catch(function (error) {
@@ -15296,25 +15295,39 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c("div", { staticClass: "story-bio row" }, [
-      _c("div", { staticClass: "col" }, [
-        _c("ul", { staticClass: "list-group" }, [
-          _c(
-            "li",
-            {
-              staticClass: "list-group-item my-2",
-              class: { active: _vm.isSelected(_vm.bio) },
-              on: {
-                click: function($event) {
-                  _vm.selectTopic(_vm.bio)
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.bio !== null,
+            expression: "bio !== null"
+          }
+        ],
+        staticClass: "story-bio row"
+      },
+      [
+        _c("div", { staticClass: "col" }, [
+          _c("ul", { staticClass: "list-group" }, [
+            _c(
+              "li",
+              {
+                staticClass: "list-group-item my-2",
+                class: { active: _vm.isSelected(_vm.bio) },
+                on: {
+                  click: function($event) {
+                    _vm.selectTopic(_vm.bio)
+                  }
                 }
-              }
-            },
-            [_vm._v("\n                    Biography\n                ")]
-          )
+              },
+              [_vm._v("\n                    Biography\n                ")]
+            )
+          ])
         ])
-      ])
-    ]),
+      ]
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "story-list row" }, [
       _c(

@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div class="story-bio row">
+        <div class="story-bio row" v-show="bio !== null">
             <div class="col">
                 <ul class="list-group">
                     <li :class="{ active: isSelected(bio) }"
