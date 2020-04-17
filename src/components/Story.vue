@@ -6,7 +6,7 @@
               <button class="btn btn-outline-dark float-right mt-1 mr-1" @click="close()">
                 <i class="far fa-fw fa-times-circle"></i>
               </button>
-              <h1>{{ name }}'s Story</h1>
+              <h1>Their Story</h1>
               <div class="form-group mt-3">
                 <div class="input-group">
                   <input v-model="search"
@@ -40,7 +40,7 @@
                         class="list-group-item my-2"
                         @click="selectTopic(bio)"
                     >
-                        Biography
+                        {{ name }}'s Biography
                     </li>
                 </ul>
             </div>

@@ -16269,7 +16269,7 @@ var render = function() {
               [_c("i", { staticClass: "far fa-fw fa-times-circle" })]
             ),
             _vm._v(" "),
-            _c("h1", [_vm._v(_vm._s(_vm.name) + "'s Story")]),
+            _c("h1", [_vm._v("Their Story")]),
             _vm._v(" "),
             _c("div", { staticClass: "form-group mt-3" }, [
               _c("div", { staticClass: "input-group" }, [
@@ -16365,7 +16365,13 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\n                    Biography\n                ")]
+              [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.name) +
+                    "'s Biography\n                "
+                )
+              ]
             )
           ])
         ])
