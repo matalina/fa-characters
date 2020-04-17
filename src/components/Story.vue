@@ -95,8 +95,10 @@
                     if(obj.subject.match(new RegExp(this.search, 'ig'))) {
                         return true;
                     }
-                    for(let index in obj.players) {
-                        if (obj.players[index].match(new RegExp(this.search, 'ig'))) {
+                    let keys = Object.keys(obj.players);
+                    for(let index in keys) {
+
+                        if (keys[index].match(new RegExp(this.search, 'ig'))) {
                             return true;
                         }
                     }
