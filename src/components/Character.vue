@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <div class="character-search bg-white position-fixed mx-auto container">
             <div class="col">
                 <h1>Characters</h1>
@@ -31,7 +31,7 @@
         <div class="character-list row">
 
             <div v-for="char in filteredCharacters"
-                class="col-md-3 col-sm-12"
+                class="col-lg-3 col-md-6 col-sm"
             >
                 <div :class="{ 'active': isSelected(char.uid) }"
                     class="my-2 p-3 bg-white text-dark rounded"

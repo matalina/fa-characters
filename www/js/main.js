@@ -15107,7 +15107,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "container" }, [
     _c(
       "div",
       {
@@ -15188,7 +15188,7 @@ var render = function() {
       "div",
       { staticClass: "character-list row" },
       _vm._l(_vm.filteredCharacters, function(char) {
-        return _c("div", { staticClass: "col-md-3 col-sm-12" }, [
+        return _c("div", { staticClass: "col-lg-3 col-md-6 col-sm" }, [
           _c(
             "div",
             {
