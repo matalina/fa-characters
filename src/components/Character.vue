@@ -1,6 +1,6 @@
 <template>
     <div class="col-lg-3">
-        <div class="character-search row bg-white position-fixed mx-auto">
+        <div class="character-search row bg-white position-fixed mx-auto w-100">
             <div class="col">
                 <h1>Characters</h1>
                 <div class="form-group mt-3">

@@ -1,8 +1,14 @@
 <template>
     <div class="col-lg-3">
-        <div class="story-search row bg-white position-fixed mx-auto">
+        <div class="story-search row bg-white position-fixed mx-auto w-100">
             <div class="col">
-                <h1>Their Story</h1>
+                <div class="row"></div>
+                <h1>
+                  Their Story
+                  <button class="btn btn-outline-dark float-right mt-1 mr-1" @click="close()">
+                      <i class="far fa-fw fa-times-circle"></i>
+                  </button>
+                </h1>
                 <div class="form-group mt-3">
                     <div class="input-group">
                         <input v-model="search"
@@ -105,6 +111,9 @@
                 this.$events.fire('topicSelected',id);
                 this.selected = id;
             },
+          close() {
+              this.$events.fire('close','story');
+          }
         }
     }
 </script>

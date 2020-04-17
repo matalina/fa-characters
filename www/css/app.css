@@ -11923,20 +11923,3 @@ a.text-dark:focus {
   }
 }
 
-html,
-body,
-#app,
-.window {
-  height: 100%;
-}
-
-.window div {
-  height: 100%;
-  overflow-y: scroll;
-}
-
-.window div div {
-  height: auto;
-  overflow-y: auto;
-}
-

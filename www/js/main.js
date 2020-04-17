@@ -13993,8 +13993,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             characters: [],
             story: [],
             posts: [],
-            bio: null
+            bio: null,
+            activePane: 'characters'
         };
+    },
+
+    methods: {
+        isActive: function isActive(pane) {
+            return this.activePane === pane;
+        }
     },
     created: function created() {
         var _this = this;
@@ -14007,6 +14014,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         this.$events.listen('characterSelected', function (id) {
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('https://thefirstage.org/pages/character/' + id + '/story').then(function (response) {
+                _this.activePane = 'story';
                 _this.story = response.data;
                 var characters = _this.characters;
                 for (var index in characters) {
@@ -14021,10 +14029,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         this.$events.listen('topicSelected', function (id) {
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('https://thefirstage.org/pages/posts/' + id).then(function (response) {
+                _this.activePane = 'posts';
                 _this.posts = response.data;
             }).catch(function (error) {
                 console.log(error);
             });
+        });
+
+        this.$events.listen('close', function (pane) {
+            switch (pane) {
+                case 'story':
+                    _this.activePane = 'characters';
+                    break;
+                case 'posts':
+                    _this.activePane = 'story';
+                    break;
+                default:
+                    _this.activePane = 'characters';
+                    break;
+            }
         });
     }
 });
@@ -15067,7 +15090,10 @@ var render = function() {
   return _c("div", { staticClass: "col-lg-3" }, [
     _c(
       "div",
-      { staticClass: "character-search row bg-white position-fixed mx-auto" },
+      {
+        staticClass:
+          "character-search row bg-white position-fixed mx-auto w-100"
+      },
       [
         _c("div", { staticClass: "col" }, [
           _c("h1", [_vm._v("Characters")]),
@@ -15286,7 +15312,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -15298,6 +15324,13 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__functions_bbcode__ = __webpack_require__(61);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -15334,6 +15367,9 @@ String.prototype.replaceAll = function (search, replace) {
             string = __WEBPACK_IMPORTED_MODULE_0__functions_bbcode__["a" /* default */].parse(string);
             string = string.replaceAll("\n\n", '</p><p>');
             return string;
+        },
+        close: function close() {
+            this.$events.fire('close', 'posts');
         }
     }
 });
@@ -15907,34 +15943,54 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "col-lg-6 bg-dark" },
-    _vm._l(_vm.posts, function(post) {
-      return _c(
-        "article",
-        { staticClass: "card border-light bg-dark text-light my-2" },
-        [
-          _c(
-            "header",
-            { staticClass: "card-header bg-light text-dark border-light" },
-            [
-              _vm._v(
-                "\n            By: " + _vm._s(post.username) + "\n        "
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c("main", { staticClass: "card-body border-light" }, [
-            _c("p", {
-              domProps: { innerHTML: _vm._s(_vm.output(post.message)) }
-            })
-          ])
-        ]
-      )
-    }),
-    0
-  )
+  return _c("div", { staticClass: "mx-auto" }, [
+    _c(
+      "div",
+      {
+        staticClass: "position-fixed w-100 text-right p-2",
+        staticStyle: { "z-index": "1000" }
+      },
+      [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-dark",
+            on: {
+              click: function($event) {
+                return _vm.close()
+              }
+            }
+          },
+          [_c("i", { staticClass: "far fa-fw fa-times-circle" })]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "bg-dark my-0 col-lg-6" },
+      _vm._l(_vm.posts, function(post) {
+        return _c(
+          "article",
+          { staticClass: "card border-light bg-dark text-light my-2" },
+          [
+            _c(
+              "header",
+              { staticClass: "card-header bg-light text-dark border-light" },
+              [_vm._v("\n        By: " + _vm._s(post.username) + "\n      ")]
+            ),
+            _vm._v(" "),
+            _c("main", { staticClass: "card-body border-light" }, [
+              _c("p", {
+                domProps: { innerHTML: _vm._s(_vm.output(post.message)) }
+              })
+            ])
+          ]
+        )
+      }),
+      0
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -16113,6 +16169,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'story',
@@ -16152,6 +16214,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         selectTopic: function selectTopic(id) {
             this.$events.fire('topicSelected', id);
             this.selected = id;
+        },
+        close: function close() {
+            this.$events.fire('close', 'story');
         }
     }
 });
@@ -16167,10 +16232,26 @@ var render = function() {
   return _c("div", { staticClass: "col-lg-3" }, [
     _c(
       "div",
-      { staticClass: "story-search row bg-white position-fixed mx-auto" },
+      { staticClass: "story-search row bg-white position-fixed mx-auto w-100" },
       [
         _c("div", { staticClass: "col" }, [
-          _c("h1", [_vm._v("Their Story")]),
+          _c("div", { staticClass: "row" }),
+          _vm._v(" "),
+          _c("h1", [
+            _vm._v("\n              Their Story\n              "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-dark float-right mt-1 mr-1",
+                on: {
+                  click: function($event) {
+                    return _vm.close()
+                  }
+                }
+              },
+              [_c("i", { staticClass: "far fa-fw fa-times-circle" })]
+            )
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group mt-3" }, [
             _c("div", { staticClass: "input-group" }, [
@@ -16372,11 +16453,41 @@ var render = function() {
       "div",
       { staticClass: "row window" },
       [
-        _c("characters", { attrs: { characters: _vm.characters } }),
+        _c("characters", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.isActive("characters"),
+              expression: "isActive('characters')"
+            }
+          ],
+          attrs: { characters: _vm.characters }
+        }),
         _vm._v(" "),
-        _c("story", { attrs: { story: _vm.story, bio: _vm.bio } }),
+        _c("story", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.isActive("story"),
+              expression: "isActive('story')"
+            }
+          ],
+          attrs: { story: _vm.story, bio: _vm.bio }
+        }),
         _vm._v(" "),
-        _c("posts", { attrs: { posts: _vm.posts } })
+        _c("posts", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.isActive("posts"),
+              expression: "isActive('posts')"
+            }
+          ],
+          attrs: { posts: _vm.posts }
+        })
       ],
       1
     )
