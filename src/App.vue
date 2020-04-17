@@ -1,9 +1,9 @@
 <template>
-    <div id="app" class="container-fluid">
+    <div id="app" class="container">
         <div class="row window">
             <characters :characters="characters" v-show="isActive('characters')"></characters>
-            <story :story="story" :bio="bio" v-show="isActive('story')"></story>
-            <posts :posts="posts" v-show="isActive('posts')"></posts>
+            <story :story="story" :bio="bio" v-show="isActive('story')" :name="name"></story>
+            <posts :posts="posts" v-show="isActive('posts')" :title="title"></posts>
         </div>
     </div>
 </template>
@@ -27,7 +27,9 @@
                 story: [],
                 posts: [],
                 bio: null,
-                activePane: 'characters'
+                activePane: 'characters',
+              name: null,
+              title: null,
             };
         },
       methods: {
@@ -44,7 +46,8 @@
                         console.log(error);
                     });
 
-            this.$events.listen('characterSelected', (id) => {
+            this.$events.listen('characterSelected', ({id, name}) => {
+                this.name = name;
                 axios.get('https://thefirstage.org/pages/character/' + id + '/story')
                         .then((response) => {
                             this.activePane = 'story';
@@ -61,7 +64,8 @@
                         });
             });
 
-            this.$events.listen('topicSelected', (id) => {
+            this.$events.listen('topicSelected', ({id,title}) => {
+              this.title = title;
                 axios.get('https://thefirstage.org/pages/posts/' + id)
                         .then((response) => {
                           this.activePane = 'posts';

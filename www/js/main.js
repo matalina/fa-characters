@@ -13994,7 +13994,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             story: [],
             posts: [],
             bio: null,
-            activePane: 'characters'
+            activePane: 'characters',
+            name: null,
+            title: null
         };
     },
 
@@ -14012,7 +14014,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             console.log(error);
         });
 
-        this.$events.listen('characterSelected', function (id) {
+        this.$events.listen('characterSelected', function (_ref) {
+            var id = _ref.id,
+                name = _ref.name;
+
+            _this.name = name;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('https://thefirstage.org/pages/character/' + id + '/story').then(function (response) {
                 _this.activePane = 'story';
                 _this.story = response.data;
@@ -14027,7 +14033,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         });
 
-        this.$events.listen('topicSelected', function (id) {
+        this.$events.listen('topicSelected', function (_ref2) {
+            var id = _ref2.id,
+                title = _ref2.title;
+
+            _this.title = title;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('https://thefirstage.org/pages/posts/' + id).then(function (response) {
                 _this.activePane = 'posts';
                 _this.posts = response.data;
@@ -15036,6 +15046,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'characters',
@@ -15043,6 +15055,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             selected: null,
+            name: null,
             search: ''
         };
     },
@@ -15063,9 +15076,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         isSelected: function isSelected(id) {
             return id === this.selected;
         },
-        selectCharacter: function selectCharacter(id) {
-            this.$events.fire('characterSelected', id);
+        selectCharacter: function selectCharacter(id, name) {
+            this.$events.fire('characterSelected', { id: id, name: name });
             this.selected = id;
+            this.name = name;
         },
         getAvatar: function getAvatar(url) {
             if (url === '') {
@@ -15087,12 +15101,12 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-lg-3" }, [
+  return _c("div", [
     _c(
       "div",
       {
         staticClass:
-          "character-search row bg-white position-fixed mx-auto w-100"
+          "character-search bg-white position-fixed mx-auto container"
       },
       [
         _c("div", { staticClass: "col" }, [
@@ -15164,24 +15178,24 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c("div", { staticClass: "character-list row" }, [
-      _c(
-        "div",
-        { staticClass: "col" },
-        _vm._l(_vm.filteredCharacters, function(char) {
-          return _c("ul", { staticClass: "list-group" }, [
-            _c(
-              "li",
-              {
-                staticClass: "list-group-item my-2",
-                class: { active: _vm.isSelected(char.uid) },
-                on: {
-                  click: function($event) {
-                    return _vm.selectCharacter(char.uid)
-                  }
+    _c(
+      "div",
+      { staticClass: "character-list row" },
+      _vm._l(_vm.filteredCharacters, function(char) {
+        return _c("div", { staticClass: "col-md-3 col-sm-12" }, [
+          _c(
+            "div",
+            {
+              staticClass: "my-2 p-3 bg-white text-dark rounded",
+              class: { active: _vm.isSelected(char.uid) },
+              on: {
+                click: function($event) {
+                  return _vm.selectCharacter(char.uid, char.subject)
                 }
-              },
-              [
+              }
+            },
+            [
+              _c("div", { staticClass: "w-100" }, [
                 _c("span", { staticClass: "float-left image-cropper mr-2" }, [
                   _c("img", { attrs: { src: _vm.getAvatar(char.avatar) } })
                 ]),
@@ -15190,13 +15204,13 @@ var render = function() {
                 _c("br"),
                 _vm._v(" "),
                 _c("small", [_vm._v("by " + _vm._s(char.username))])
-              ]
-            )
-          ])
-        }),
-        0
-      )
-    ])
+              ])
+            ]
+          )
+        ])
+      }),
+      0
+    )
   ])
 }
 var staticRenderFns = [
@@ -15361,7 +15375,7 @@ String.prototype.replaceAll = function (search, replace) {
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'posts',
-    props: ['posts'],
+    props: ['posts', 'title'],
     methods: {
         output: function output(string) {
             string = __WEBPACK_IMPORTED_MODULE_0__functions_bbcode__["a" /* default */].parse(string);
@@ -15947,14 +15961,14 @@ var render = function() {
     _c(
       "div",
       {
-        staticClass: "position-fixed w-100 text-right p-2",
-        staticStyle: { "z-index": "1000" }
+        staticClass: "position-fixed container text-right p-3",
+        staticStyle: { "z-index": "10000" }
       },
       [
         _c(
           "button",
           {
-            staticClass: "btn btn-dark",
+            staticClass: "btn btn-info",
             on: {
               click: function($event) {
                 return _vm.close()
@@ -15968,7 +15982,7 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "bg-dark my-0 col-lg-6" },
+      { staticClass: "bg-dark my-0" },
       _vm._l(_vm.posts, function(post) {
         return _c(
           "article",
@@ -15977,7 +15991,15 @@ var render = function() {
             _c(
               "header",
               { staticClass: "card-header bg-light text-dark border-light" },
-              [_vm._v("\n        By: " + _vm._s(post.username) + "\n      ")]
+              [
+                _vm._v(
+                  "\n        " +
+                    _vm._s(_vm.title) +
+                    " by " +
+                    _vm._s(post.username) +
+                    "\n      "
+                )
+              ]
             ),
             _vm._v(" "),
             _c("main", { staticClass: "card-body border-light" }, [
@@ -16173,12 +16195,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'story',
-    props: ['story', 'bio'],
+    props: ['story', 'bio', 'name'],
     data: function data() {
         return {
             selected: null,
@@ -16211,8 +16231,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         isSelected: function isSelected(id) {
             return id === this.selected;
         },
-        selectTopic: function selectTopic(id) {
-            this.$events.fire('topicSelected', id);
+        selectTopic: function selectTopic(id, title) {
+            this.$events.fire('topicSelected', { id: id, title: title });
             this.selected = id;
         },
         close: function close() {
@@ -16229,16 +16249,13 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-lg-3" }, [
+  return _c("div", { staticClass: "w-100" }, [
     _c(
       "div",
-      { staticClass: "story-search row bg-white position-fixed mx-auto w-100" },
+      { staticClass: "story-search container bg-white position-fixed" },
       [
-        _c("div", { staticClass: "col" }, [
-          _c("div", { staticClass: "row" }),
-          _vm._v(" "),
-          _c("h1", [
-            _vm._v("\n              Their Story\n              "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col" }, [
             _c(
               "button",
               {
@@ -16250,69 +16267,71 @@ var render = function() {
                 }
               },
               [_c("i", { staticClass: "far fa-fw fa-times-circle" })]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group mt-3" }, [
-            _c("div", { staticClass: "input-group" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.search,
-                    expression: "search"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { placeholder: "Search..." },
-                domProps: { value: _vm.search },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.search = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
+            ),
+            _vm._v(" "),
+            _c("h1", [_vm._v(_vm._s(_vm.name) + "'s Story")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group mt-3" }, [
+              _c("div", { staticClass: "input-group" }, [
+                _c("input", {
                   directives: [
                     {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.search === "",
-                      expression: "search === ''"
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.search,
+                      expression: "search"
                     }
                   ],
-                  staticClass: "input-group-append"
-                },
-                [_vm._m(0)]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.search !== "",
-                      expression: "search !== ''"
-                    }
-                  ],
-                  staticClass: "input-group-append",
+                  staticClass: "form-control",
+                  attrs: { placeholder: "Search..." },
+                  domProps: { value: _vm.search },
                   on: {
-                    click: function($event) {
-                      _vm.search = ""
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.search = $event.target.value
                     }
                   }
-                },
-                [_vm._m(1)]
-              )
+                }),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.search === "",
+                        expression: "search === ''"
+                      }
+                    ],
+                    staticClass: "input-group-append"
+                  },
+                  [_vm._m(0)]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.search !== "",
+                        expression: "search !== ''"
+                      }
+                    ],
+                    staticClass: "input-group-append",
+                    on: {
+                      click: function($event) {
+                        _vm.search = ""
+                      }
+                    }
+                  },
+                  [_vm._m(1)]
+                )
+              ])
             ])
           ])
         ])
@@ -16330,10 +16349,10 @@ var render = function() {
             expression: "bio !== null"
           }
         ],
-        staticClass: "story-bio row"
+        staticClass: "story-bio"
       },
       [
-        _c("div", { staticClass: "col" }, [
+        _c("div", {}, [
           _c("ul", { staticClass: "list-group" }, [
             _c(
               "li",
@@ -16353,64 +16372,62 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c("div", { staticClass: "story-list row" }, [
-      _c(
-        "div",
-        { staticClass: "col" },
-        _vm._l(_vm.filteredStory, function(topic) {
-          return _c("ul", { staticClass: "list-group" }, [
-            _c(
-              "li",
-              {
-                staticClass: "list-group-item my-2",
-                class: { active: _vm.isSelected(topic.tid) },
-                on: {
-                  click: function($event) {
-                    return _vm.selectTopic(topic.tid)
-                  }
+    _c(
+      "div",
+      { staticClass: "story-list" },
+      _vm._l(_vm.filteredStory, function(topic) {
+        return _c("ul", { staticClass: "list-group" }, [
+          _c(
+            "li",
+            {
+              staticClass: "list-group-item my-2",
+              class: { active: _vm.isSelected(topic.tid) },
+              on: {
+                click: function($event) {
+                  return _vm.selectTopic(topic.tid, topic.subject)
                 }
-              },
-              [
-                _vm._v("\n                    " + _vm._s(topic.subject)),
-                _c("br"),
-                _vm._v(" "),
-                _c(
-                  "small",
-                  [
-                    _vm._v(
-                      "\n                        on\n                        "
-                    ),
-                    _vm._l(topic.forum, function(forum) {
-                      return [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(forum) +
-                            "\n                        "
-                        )
-                      ]
-                    }),
-                    _c("br")
-                  ],
-                  2
-                ),
-                _vm._v("\n                    Players:\n                    "),
-                _vm._l(topic.players, function(player) {
-                  return [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(player) +
-                        "\n                    "
-                    )
-                  ]
-                })
-              ],
-              2
-            )
-          ])
-        }),
-        0
-      )
-    ])
+              }
+            },
+            [
+              _vm._v("\n                    " + _vm._s(topic.subject)),
+              _c("br"),
+              _vm._v(" "),
+              _c(
+                "small",
+                [
+                  _vm._v(
+                    "\n                        on\n                        "
+                  ),
+                  _vm._l(topic.forum, function(forum) {
+                    return [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(forum) +
+                          "\n                        "
+                      )
+                    ]
+                  }),
+                  _c("br")
+                ],
+                2
+              ),
+              _vm._v("\n                    Players:\n                    "),
+              _vm._l(topic.players, function(player) {
+                return [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(player) +
+                      "\n                    "
+                  )
+                ]
+              })
+            ],
+            2
+          )
+        ])
+      }),
+      0
+    )
   ])
 }
 var staticRenderFns = [
@@ -16448,7 +16465,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container-fluid", attrs: { id: "app" } }, [
+  return _c("div", { staticClass: "container", attrs: { id: "app" } }, [
     _c(
       "div",
       { staticClass: "row window" },
@@ -16474,7 +16491,7 @@ var render = function() {
               expression: "isActive('story')"
             }
           ],
-          attrs: { story: _vm.story, bio: _vm.bio }
+          attrs: { story: _vm.story, bio: _vm.bio, name: _vm.name }
         }),
         _vm._v(" "),
         _c("posts", {
@@ -16486,7 +16503,7 @@ var render = function() {
               expression: "isActive('posts')"
             }
           ],
-          attrs: { posts: _vm.posts }
+          attrs: { posts: _vm.posts, title: _vm.title }
         })
       ],
       1

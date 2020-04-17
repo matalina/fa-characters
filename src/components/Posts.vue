@@ -1,16 +1,16 @@
 <template>
   <div class="mx-auto">
-    <div class="position-fixed w-100 text-right p-2" style="z-index:1000">
-        <button class="btn btn-dark" @click="close()">
+    <div class="position-fixed container text-right p-3" style="z-index:10000">
+        <button class="btn btn-info" @click="close()">
           <i class="far fa-fw fa-times-circle"></i>
         </button>
     </div>
-    <div class="bg-dark my-0 col-lg-6" >
+    <div class="bg-dark my-0" >
       <article v-for="post in posts"
                class="card border-light bg-dark text-light my-2"
       >
         <header class="card-header bg-light text-dark border-light">
-          By: {{ post.username }}
+          {{ title }} by {{ post.username }}
         </header>
         <main class="card-body border-light">
           <p v-html="output(post.message)"></p>
@@ -35,7 +35,7 @@
 
     export default {
         name: 'posts',
-        props: ['posts'],
+        props: ['posts','title'],
         methods: {
             output(string) {
                 string = BBCode.parse(string);

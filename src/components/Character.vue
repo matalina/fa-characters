@@ -1,6 +1,6 @@
 <template>
-    <div class="col-lg-3">
-        <div class="character-search row bg-white position-fixed mx-auto w-100">
+    <div>
+        <div class="character-search bg-white position-fixed mx-auto container">
             <div class="col">
                 <h1>Characters</h1>
                 <div class="form-group mt-3">
@@ -29,23 +29,25 @@
             </div>
         </div>
         <div class="character-list row">
-            <div class="col">
-                <ul v-for="char in filteredCharacters"
-                    class="list-group"
+
+            <div v-for="char in filteredCharacters"
+                class="col-md-3 col-sm-12"
+            >
+                <div :class="{ 'active': isSelected(char.uid) }"
+                    class="my-2 p-3 bg-white text-dark rounded"
+                    @click="selectCharacter(char.uid, char.subject)"
                 >
-                    <li :class="{ 'active': isSelected(char.uid) }"
-                        class="list-group-item my-2"
-                        @click="selectCharacter(char.uid)"
-                    >
-                            <span class="float-left image-cropper mr-2">
-                                <img :src="getAvatar(char.avatar)"
-                                       class=""
-                            /></span>
-                            <span>{{ char.subject }}</span><br/>
-                            <small>by {{ char.username }}</small>
-                    </li>
-                </ul>
+                  <div class="w-100">
+                        <span class="float-left image-cropper mr-2">
+                            <img :src="getAvatar(char.avatar)"
+                                   class=""
+                        /></span>
+                        <span>{{ char.subject }}</span><br/>
+                        <small>by {{ char.username }}</small>
+                  </div>
+                </div>
             </div>
+
         </div>
     </div>
 </template>
@@ -57,6 +59,7 @@
         data () {
             return {
                 selected: null,
+                name: null,
                 search: '',
             };
         },
@@ -74,9 +77,11 @@
             isSelected(id) {
                 return id === this.selected;
             },
-            selectCharacter(id) {
-                this.$events.fire('characterSelected',id);
+            selectCharacter(id, name) {
+                this.$events.fire('characterSelected',{id,name});
                 this.selected = id;
+                this.name = name;
+
             },
             getAvatar(url) {
                 if(url === '') {
