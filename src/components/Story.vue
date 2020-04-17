@@ -60,9 +60,13 @@
                                 {{ forum }}
                             </template><br/>
                         </small>
-                        Players:
-                        <template v-for="player in topic.players">
-                            {{ player }}
+                        Players:<br/>
+                        <template v-for="(avatar, player) in topic.players">
+                            <span class="float-left image-cropper mr-2">
+                            <img :src="getAvatar(avatar)"
+                                 class=""
+                                 :alt="player"
+                            /></span>
                         </template>
 
                     </li>
@@ -111,7 +115,16 @@
             },
           close() {
               this.$events.fire('close','story');
-          }
+          },
+          getAvatar(url) {
+            if(url === '') {
+              url = 'https://thefirstage.org/forums/images/default_avatar.png';
+            }
+            else if(url.search(/^http/) === -1) {
+              url = 'https://thefirstage.org/forums/' + url;
+            }
+            return url;
+          },
         }
     }
 </script>

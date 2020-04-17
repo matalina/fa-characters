@@ -13,6 +13,10 @@
           {{ title }} by {{ post.username }}
         </header>
         <main class="card-body border-light">
+          <span class="float-left image-cropper mr-2">
+            <img :src="getAvatar(post.character.avatar)"
+                 class=""
+            /></span>
           <p v-html="output(post.message)"></p>
         </main>
       </article>
@@ -44,7 +48,16 @@
             },
           close() {
             this.$events.fire('close','posts');
-          }
+          },
+          getAvatar(url) {
+            if(url === '') {
+              url = 'https://thefirstage.org/forums/images/default_avatar.png';
+            }
+            else if(url.search(/^http/) === -1) {
+              url = 'https://thefirstage.org/forums/' + url;
+            }
+            return url;
+          },
         }
     }
 </script>

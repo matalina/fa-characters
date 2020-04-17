@@ -15326,7 +15326,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -15338,6 +15338,10 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__functions_bbcode__ = __webpack_require__(61);
+//
+//
+//
+//
 //
 //
 //
@@ -15384,6 +15388,14 @@ String.prototype.replaceAll = function (search, replace) {
         },
         close: function close() {
             this.$events.fire('close', 'posts');
+        },
+        getAvatar: function getAvatar(url) {
+            if (url === '') {
+                url = 'https://thefirstage.org/forums/images/default_avatar.png';
+            } else if (url.search(/^http/) === -1) {
+                url = 'https://thefirstage.org/forums/' + url;
+            }
+            return url;
         }
     }
 });
@@ -16003,6 +16015,12 @@ var render = function() {
             ),
             _vm._v(" "),
             _c("main", { staticClass: "card-body border-light" }, [
+              _c("span", { staticClass: "float-left image-cropper mr-2" }, [
+                _c("img", {
+                  attrs: { src: _vm.getAvatar(post.character.avatar) }
+                })
+              ]),
+              _vm._v(" "),
               _c("p", {
                 domProps: { innerHTML: _vm._s(_vm.output(post.message)) }
               })
@@ -16195,6 +16213,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'story',
@@ -16237,6 +16259,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         close: function close() {
             this.$events.fire('close', 'story');
+        },
+        getAvatar: function getAvatar(url) {
+            if (url === '') {
+                url = 'https://thefirstage.org/forums/images/default_avatar.png';
+            } else if (url.search(/^http/) === -1) {
+                url = 'https://thefirstage.org/forums/' + url;
+            }
+            return url;
         }
     }
 });
@@ -16417,14 +16447,16 @@ var render = function() {
                 ],
                 2
               ),
-              _vm._v("\n                    Players:\n                    "),
-              _vm._l(topic.players, function(player) {
+              _vm._v("\n                    Players:"),
+              _c("br"),
+              _vm._v(" "),
+              _vm._l(topic.players, function(avatar, player) {
                 return [
-                  _vm._v(
-                    "\n                        " +
-                      _vm._s(player) +
-                      "\n                    "
-                  )
+                  _c("span", { staticClass: "float-left image-cropper mr-2" }, [
+                    _c("img", {
+                      attrs: { src: _vm.getAvatar(avatar), alt: player }
+                    })
+                  ])
                 ]
               })
             ],
